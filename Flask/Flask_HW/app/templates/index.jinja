@@ -2,4 +2,30 @@
 
 {% block content %}
     <h2>Home</h2>
+    <form action="" method="post">
+        <p>
+        {{ car_form.make.label }}<br>
+        {{ car_form.make(size=32) }}
+        </p>
+        <p>
+        {{ car_form.model.label }}<br>
+        {{ car_form.model(size=32) }}
+        </p>
+        <p>
+        {{ car_form.year.label }}<br>
+        {{ car_form.year(size=32) }}
+        </p>
+        <p>
+        {{ car_form.color.label }}<br>
+        {{ car_form.color(size=32) }}
+        </p>
+        <p>
+        {{ car_form.price.label }}<br>
+        {{ car_form.price(size=32) }}
+        </p>
+        <p>
+        {{ car_form.submit(class='btn btn-primary') }}
+        
+        </p>
+    </form>
 {% endblock %}
