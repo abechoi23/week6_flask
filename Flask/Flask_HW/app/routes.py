@@ -5,10 +5,10 @@ from app.forms import RegisterForm, SignInForm, CarForm
 
 @app.route('/')
 def index():
-    form = CarForm
+    form = CarForm()
     if form.validate_on_submit:
         flash(f'Request Submitted')
-    return render_template('index.jinja', car_form = form)
+    return render_template('index.jinja', car_form = form, title='Home')
 
 @app.route('/about')
 def about():
@@ -19,7 +19,6 @@ def register():
     form = RegisterForm()
     if form.validate_on_submit:
         flash(f'Request to register {form.username} successful')
-        return redirect('/')
     return render_template('register.jinja', form=form)
 
 
@@ -28,7 +27,6 @@ def login():
     form = SignInForm()
     if form.validate_on_submit:
         flash(f'{form.username} succesfully signed in!')
-        return redirect('/')
     return render_template('login.jinja', sign_in_form=form)
 
 @app.route('/blog')
