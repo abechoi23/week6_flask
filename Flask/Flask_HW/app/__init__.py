@@ -11,6 +11,9 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 login = LoginManager(app)
 
+login.login_view='/signin'
+login.login_message='Make sure you log in'
+
 # import routes at bottom of the page
 from app import routes, models
 

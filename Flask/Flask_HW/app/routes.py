@@ -1,15 +1,23 @@
 from flask import render_template, flash, redirect
 from app import app, db
 from app.forms import RegisterForm, SignInForm, BlogForm, CarForm
-from app.models import User
-from flask_login import current_user, login_user
+from app.models import User, Car
+from flask_login import current_user, login_user, logout_user, login_required
 
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 def index():
     form = CarForm()
     if form.validate_on_submit():
+        make = form.make.data
+        model = form.model.data
+        year = form.year.data
+        color = form.color.data
+        price = form.price.data
+        c = Car(make=make, model=model,year=year,color=color,price=price)
+        c.commit()
         flash(f'Request Submitted')
+        return redirect('/')
     return render_template('index.jinja', car_form = form, title='Home')
 
 @app.route('/about')
@@ -53,14 +61,20 @@ def login():
         user_match = User.query.filter_by(username=username).first()
         if not user_match or not user_match.check_password(password):
             flash(f'Username or Password was incorrect, try again.')
-            return redirect('/signin')
+            return redirect('/login')
         flash(f'{username} succesfully signed in!')
         login_user(user_match)
         return redirect('/')
-    return render_template('signin.jinja',sign_in_form=form)
+    return render_template('login.jinja',sign_in_form=form)
 
 @app.route('/blog')
 def blog():
     form = BlogForm()
     return render_template('blog.jinja', blog_form = form)
 
+
+@login_required
+@app.route('/signout')
+def signout():
+    logout_user()
+    return redirect('/')

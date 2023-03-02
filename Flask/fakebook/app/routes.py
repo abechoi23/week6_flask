@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect
 from app import app, db
 from app.forms import RegisterForm, SignInForm, BlogForm
 from app.models import User
-from flask_login import current_user, login_user
+from flask_login import login_user, logout_user, login_required
 
 @app.route('/')
 def index():
@@ -71,3 +71,8 @@ def blog():
         u.commit()
     return render_template('blog.jinja', blog_form=form)
 
+@login_required
+@app.route('/signout')
+def signout():
+    logout_user()
+    return redirect('/')
