@@ -11,6 +11,8 @@ class User(db.Model):
     username = db.Column(db.String(64), unique=True, nullable=True)
     email = db.Column(db.String(120), unique=True, nullable=True)
     password_hash = db.Column(db.String(120), nullable=True)
+    first_name = db.Column(db.String(120))
+    last_name = db.Column(db.String(120))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
 
 
@@ -49,3 +51,14 @@ class Post(db.Model):
 
     def __repr__(self):
         return f'<Post: {self.body}>'
+
+
+class Car(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    make = db.Column(db.String(50))
+    model = db.Column(db.String(50))
+    year = db.Column(db.String(50))
+    color = db.Column(db.String(50))
+    price = db.Column(db.String(50))
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))

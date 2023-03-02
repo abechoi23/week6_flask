@@ -24,3 +24,8 @@ class SignInForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Sign In')
+
+class BlogForm(FlaskForm):
+    title = StringField('Title')
+    body =  TextAreaField('Body')
+    submit = SubmitField('Submit')
