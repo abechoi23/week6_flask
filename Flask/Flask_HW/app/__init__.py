@@ -14,6 +14,11 @@ login = LoginManager(app)
 login.login_view='/signin'
 login.login_message='Make sure you log in'
 
-# import routes at bottom of the page
-from app import routes, models
+from app.blueprints.auth import bp as auth_bp
+app.register_blueprint(auth_bp)
 
+from app.blueprints.main import bp as main_bp
+app.register_blueprint(main_bp)
+
+from app.blueprints.social import bp as social_bp
+app.register_blueprint(social_bp)

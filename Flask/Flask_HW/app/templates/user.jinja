@@ -1,0 +1,15 @@
+{% extends 'base.jinja' %}
+
+{% block content %}
+<h2>{{ user.username }} Profile</h2>
+
+{% for post in posts %}
+{# post.author is backref from User() same as user.username #}
+    <p>{{ post.author.username }} <br> Title: {{ post.title }} <br> Post: {{ post.body }}</p>
+{% endfor %}
+
+{% for car in cars %}
+    <p>{{ user.username }} wants: {{ car.make }} {{ car.model }}</p>
+{% endfor %}
+
+{% endblock %}
