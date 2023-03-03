@@ -1,6 +1,6 @@
 from . import bp as auth_bp
 # from auth import bp as auth_bp
-from flask import render_template, flash, redirect
+from flask import render_template, flash, redirect, url_for
 from .forms import RegisterForm, SignInForm
 from app.blueprints.social.models import User
 from flask_login import login_user, logout_user, login_required
@@ -18,15 +18,15 @@ def register():
         email_match = User.query.filter_by(email=email).first()
         if user_match:
             flash(f'Username {username} already exists, try again.')
-            return redirect('/register')
+            return redirect(url_for(('auth.register')))
         elif email_match:
             flash(f'Email {email} already exists, try again')    
-            return redirect('/register')
+            return redirect(url_for(('auth.register')))
         else:
             u.hash_password(password)
             u.commit()
             flash(f'Request to register {username} successful')
-            return redirect('/')
+            return redirect(url_for(('main.index')))
     return render_template('register.jinja', form=form)
 
 
@@ -39,10 +39,10 @@ def signin():
         user_match = User.query.filter_by(username=username).first()
         if not user_match or not user_match.check_password(password):
             flash(f'Username or Password was incorrect, try again.')
-            return redirect('/signin')
+            return redirect(url_for(('auth.signin')))
         flash(f'{username} succesfully signed in!')
         login_user(user_match, remember=False)
-        return redirect('/')
+        return redirect(url_for(('main.index')))
     return render_template('signin.jinja',sign_in_form=form)
 
 
@@ -50,4 +50,4 @@ def signin():
 @auth_bp.route('/signout')
 def signout():
     logout_user()
-    return redirect('/')
+    return redirect(url_for(('main.index')))

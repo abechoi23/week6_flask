@@ -5,7 +5,7 @@
 
 {% for post in posts %}
 {# post.author is backref from User() same as user.username #}
-    <p>{{ post.author.username }} says: {{ post.title }} {{ post.body }}</p>
+    <p>User: {{ post.author.username }} <br> Title: {{ post.title }} <br> Post: {{ post.body }}</p>
 {% endfor %}
 
 {% endblock %}
