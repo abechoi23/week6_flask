@@ -6,25 +6,30 @@ from app.blueprints.social.models import User
 from flask_login import login_user, logout_user, login_required
 
 
-@auth_bp.route('/register', methods=['GET','POST'])
+@auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
         username = form.username.data
         email = form.email.data
         password = form.password.data
-        u = User(username=username, email=email, password_hash='')
+        first_name = form.first_name.data
+        last_name = form.last_name.data
+        u = User(username=username, email=email, password_hash='',
+                 first_name=first_name, last_name=last_name)
         user_match = User.query.filter_by(username=username).first()
         email_match = User.query.filter_by(email=email).first()
         if user_match:
             flash(f'Username {username} already exists, try again.')
             return redirect('/register')
         elif email_match:
-            flash(f'Email {email} already exists, try again')    
+            flash(f'Email {email} already exists, try again')
             return redirect('/register')
         else:
             u.hash_password(password)
             u.commit()
+            # db.session.add(u)
+            # db.session.commit()
             flash(f'Request to register {username} successful')
             return redirect('/')
     return render_template('register.jinja', form=form)
